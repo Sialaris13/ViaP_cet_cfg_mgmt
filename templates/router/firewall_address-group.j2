@@ -1,0 +1,225 @@
+
+set firewall group address-group FlexSupport address 72.50.214.244
+set firewall group address-group FlexSupport address 4.16.82.242
+set firewall group address-group FlexSupport address 69.5.224.192/30
+set firewall group address-group FlexSupport address 69.5.228.152/29
+set firewall group address-group FlexSupport address 24.116.178.16/28
+set firewall group address-group FlexSupport description 'Flex Application Support'
+set firewall group address-group GTLSBC address 64.245.201.245
+set firewall group address-group GTLSBC address 64.245.201.246
+set firewall group address-group GTLSBC address 67.152.248.45
+set firewall group address-group GTLSBC address 67.152.248.46
+set firewall group address-group GTLSBC address 67.154.148.3
+set firewall group address-group GTLSBC address 71.164.174.138
+set firewall group address-group GTLSBC address 71.164.174.139
+set firewall group address-group GTLSBC address 207.255.27.138
+set firewall group address-group GTLSBC description ''
+set firewall group address-group HDCSubnets address 10.33.128.0/24
+set firewall group address-group HDCSubnets address 172.16.0.0/16
+set firewall group address-group HDCSubnets address 10.10.0.0/16
+set firewall group address-group HDCSubnets address 10.50.1.0/24
+set firewall group address-group HDCSubnets address 10.50.3.0/24
+set firewall group address-group HDCSubnets address 10.3.3.0/24
+set firewall group address-group HDCSubnets address 192.168.35.0/24
+set firewall group address-group HDCSubnets address 192.168.36.0/24
+set firewall group address-group HDCSubnets description ''
+set firewall group address-group Keefe-Telmate_443 address 12.106.59.220
+set firewall group address-group Keefe-Telmate_443 address 69.5.228.154
+set firewall group address-group Keefe-Telmate_443 address 10.1.25.10
+set firewall group address-group Keefe-Telmate_443 description ''
+set firewall group address-group Orion address 67.99.197.33
+set firewall group address-group Orion address 10.33.128.0/24
+set firewall group address-group Orion description ''
+set firewall group address-group Telmate-Servers address 38.88.7.128/29
+set firewall group address-group Telmate-Servers address 69.5.228.154
+set firewall group address-group Telmate-Servers address 38.88.240.240/29
+set firewall group address-group Telmate-Servers address 38.104.251.192/30
+set firewall group address-group Telmate-Servers address 38.111.144.64/27
+set firewall group address-group Telmate-Servers address 38.111.159.32/27
+set firewall group address-group Telmate-Servers address 38.117.86.0/27
+set firewall group address-group Telmate-Servers address 216.221.148.160/27
+set firewall group address-group Telmate-Servers address 12.106.59.220
+set firewall group address-group Telmate-Servers address 12.106.59.180
+set firewall group address-group Telmate-Servers description 'IPs allowed to Keefe'
+set firewall group address-group VAC_ACCESS address 10.250.221.16
+set firewall group address-group VAC_ACCESS address 160.72.155.194
+set firewall group address-group VAC_ACCESS address 10.250.221.18
+set firewall group address-group VAC_ACCESS address 160.72.155.195
+set firewall group address-group VAC_ACCESS description ''
+
+{% for prefix in WLSourceGroup %}
+set firewall group address-group WLSourceGroup address {{ prefix }}
+{%- endfor %}
+set firewall group address-group WLSourceGroup description 'WL For Port-Forward Access'
+
+set firewall group address-group data.center.3rd.party description 'Non GTL Data Centers'
+{% for ip in dns_server %}
+set firewall group address-group dns.servers.public address {{ ip }}
+{%- endfor %}
+
+set firewall group address-group dns.servers.public description 'Public DNS Servers'
+set firewall group address-group gtl.ant/z.gb1.outside address 10.125.0.80-10.125.0.84
+set firewall group address-group gtl.ant/z.gb1.outside description 'GB 1 of All Ant/z Servers [Open Access]'
+set firewall group address-group gtl.command.public.ips address 38.111.144.64/27
+set firewall group address-group gtl.command.public.ips address 24.116.178.16/28
+set firewall group address-group gtl.command.public.ips address 69.5.224.192/30
+set firewall group address-group gtl.command.public.ips address 69.5.224.204/30
+set firewall group address-group gtl.command.public.ips address 69.5.228.152/29
+set firewall group address-group gtl.command.public.ips address 4.16.82.240/28
+set firewall group address-group gtl.command.public.ips address 204.16.155.80/28
+set firewall group address-group gtl.command.public.ips address 208.185.40.16/28
+set firewall group address-group gtl.command.public.ips address 38.88.68.128/27
+set firewall group address-group gtl.command.public.ips address 169.254.38.0/24
+set firewall group address-group gtl.command.public.ips address 169.254.249.52/30
+set firewall group address-group gtl.command.public.ips address 216.221.148.160/27
+set firewall group address-group gtl.command.public.ips address 122.53.32.83
+set firewall group address-group gtl.command.public.ips address 114.108.245.50
+set firewall group address-group gtl.command.public.ips address 119.92.192.0/24
+set firewall group address-group gtl.command.public.ips address 180.232.152.16/29
+set firewall group address-group gtl.command.public.ips address 38.111.159.51
+set firewall group address-group gtl.command.public.ips description 'GTL Command IPs'
+set firewall group address-group gtl.data.centers address 67.152.248.0/23
+set firewall group address-group gtl.data.centers address 66.147.220.0/24
+set firewall group address-group gtl.data.centers address 67.99.196.0/23
+set firewall group address-group gtl.data.centers address 66.243.139.0/24
+set firewall group address-group gtl.data.centers address 64.245.201.0/24
+set firewall group address-group gtl.data.centers address 207.34.8.0/22
+set firewall group address-group gtl.data.centers address 38.90.155.0/24
+set firewall group address-group gtl.data.centers address 216.66.77.160/27
+set firewall group address-group gtl.data.centers address 45.61.84.0/23
+set firewall group address-group gtl.data.centers address 3.217.35.83
+set firewall group address-group gtl.data.centers address 34.197.159.62
+set firewall group address-group gtl.data.centers address 216.253.19.0/24
+set firewall group address-group gtl.data.centers address 34.204.126.135
+set firewall group address-group gtl.data.centers description 'GTL Data Centers'
+set firewall group address-group gtl.iperf.public address 3.211.60.78
+set firewall group address-group gtl.iperf.public description 'AWS iPerf Server'
+set firewall group address-group gtl.kiosk description 'GTL Legacy Telmate Kiosks [Open Access]'
+set firewall group address-group gtl.offices address 207.255.27.138
+set firewall group address-group gtl.offices address 207.255.27.139
+set firewall group address-group gtl.offices address 207.255.27.140
+set firewall group address-group gtl.offices address 72.28.192.192/27
+set firewall group address-group gtl.offices address 64.191.105.32/27
+set firewall group address-group gtl.offices address 67.48.219.208/28
+set firewall group address-group gtl.offices address 98.6.62.128/27
+set firewall group address-group gtl.offices address 24.227.144.192/27
+set firewall group address-group gtl.offices address 64.191.102.160/27
+set firewall group address-group gtl.offices address 12.108.228.32/27
+set firewall group address-group gtl.offices address 65.140.51.160/27
+set firewall group address-group gtl.offices address 184.185.77.112/28
+set firewall group address-group gtl.offices address 208.98.145.128/27
+set firewall group address-group gtl.offices address 208.36.139.0/24
+set firewall group address-group gtl.offices address 64.191.106.0/27
+set firewall group address-group gtl.offices address 108.58.41.88/29
+set firewall group address-group gtl.offices address 12.70.187.128/27
+set firewall group address-group gtl.offices address 12.169.48.192/26
+set firewall group address-group gtl.offices address 50.73.174.240/28
+set firewall group address-group gtl.offices address 50.209.72.224/28
+set firewall group address-group gtl.offices address 65.213.253.224/27
+set firewall group address-group gtl.offices address 72.20.152.0/24
+set firewall group address-group gtl.offices address 10.30.26.0/24
+set firewall group address-group gtl.offices address 69.57.50.192/28
+set firewall group address-group gtl.offices address 47.206.72.136
+set firewall group address-group gtl.offices address 97.99.201.229
+set firewall group address-group gtl.offices address 75.88.93.91
+set firewall group address-group gtl.offices address 71.244.212.183
+set firewall group address-group gtl.offices address 47.206.72.141
+set firewall group address-group gtl.offices address 45.61.84.0/23
+set firewall group address-group gtl.offices address 98.122.175.179
+set firewall group address-group gtl.offices description 'GTL Office List'
+set firewall group address-group gtl.private.ip.space address 192.168.0.0/16
+set firewall group address-group gtl.private.ip.space address 172.16.0.0/12
+set firewall group address-group gtl.private.ip.space address 10.0.0.0/8
+set firewall group address-group gtl.private.ip.space description 'RFC 1918 Backoffice IP Space'
+set firewall group address-group gtl.sa.open.access address 10.125.5.10-10.125.5.40
+set firewall group address-group gtl.sa.open.access address 10.125.0.151
+set firewall group address-group gtl.sa.open.access description 'GTL Sight Admins [Open Access]'
+set firewall group address-group gtl.twilio.webrtc address 34.203.254.0/24
+set firewall group address-group gtl.twilio.webrtc address 54.172.60.0/24
+set firewall group address-group gtl.twilio.webrtc address 34.203.250.0/24
+set firewall group address-group gtl.twilio.webrtc address 3.235.111.128/25
+set firewall group address-group gtl.twilio.webrtc address 34.216.110.128/25
+set firewall group address-group gtl.twilio.webrtc address 54.244.51.0/24
+set firewall group address-group gtl.twilio.webrtc address 44.234.69.0/24
+set firewall group address-group gtl.twilio.webrtc description VisManager
+set firewall group address-group gtl.unifi.controllers address 52.205.217.152
+set firewall group address-group gtl.unifi.controllers address 35.168.118.50
+set firewall group address-group gtl.unifi.controllers address 3.230.85.14
+set firewall group address-group gtl.unifi.controllers address 54.152.232.114
+set firewall group address-group gtl.unifi.controllers address 199.33.117.90
+set firewall group address-group gtl.unifi.controllers address 38.111.144.93
+set firewall group address-group gtl.unifi.controllers address 38.111.144.79
+set firewall group address-group gtl.unifi.controllers address 38.111.144.68
+set firewall group address-group gtl.unifi.controllers address 38.111.144.92
+set firewall group address-group gtl.unifi.controllers address 199.33.117.91
+set firewall group address-group gtl.unifi.controllers address 199.33.117.92
+set firewall group address-group gtl.unifi.controllers address 199.33.116.50
+set firewall group address-group gtl.unifi.controllers address 54.147.141.170
+set firewall group address-group gtl.unifi.controllers description 'GTL AWS Unfi Controllers'
+set firewall group address-group gtl.unms.private description 'GTL UNMS Private IPs'
+set firewall group address-group gtl.unms.public address 167.71.188.127
+set firewall group address-group gtl.unms.public address 165.22.33.198
+set firewall group address-group gtl.unms.public address 34.197.222.206
+set firewall group address-group gtl.unms.public address 216.253.19.0/24
+set firewall group address-group gtl.unms.public address 104.131.15.75
+set firewall group address-group gtl.unms.public description 'GTL UNMS Public IPs'
+set firewall group address-group gtl.voice.gatewway.ata description 'Adtran or Quintum - Analog to VoIP [Open Access]'
+
+{% for address in gtl_voice_voip_sbc %}
+set firewall group address-group gtl.voice.voip.sbc address {{ address }}
+{%- endfor %}
+set firewall group address-group gtl.voice.voip.sbc description gtl.voice.voip.sbc
+
+set firewall group address-group keefe.computers description '3rd Party Company'
+
+{% for address in lexis_nexis_law_library %}
+set firewall group address-group lexis.nexis.law.library address {{ address }}}
+{%- endfor %}
+set firewall group address-group lexis.nexis.law.library description 'Lexis Nexis Law Library'
+
+
+set firewall group address-group pat02.eth5.telemedicine address 10.102.204.0/24
+set firewall group address-group pat02.eth5.telemedicine description 'Eth5 Telemedicine PAT'
+set firewall group address-group pat03.eth6.naas address 10.102.205.0/24
+set firewall group address-group pat03.eth6.naas description 'Eth6 Network as a Service PAT'
+set firewall group address-group synergy.offices description 'Synergy Office List'
+
+set firewall group address-group touchpay.logservers address 74.112.132.44
+set firewall group address-group touchpay.logservers address 45.61.84.0/23
+set firewall group address-group touchpay.logservers address 67.152.249.77
+set firewall group address-group touchpay.logservers description ''
+
+set firewall group address-group touchpay.ntpservers address 216.228.192.52
+set firewall group address-group touchpay.ntpservers address 4.53.160.75
+set firewall group address-group touchpay.ntpservers address 204.2.134.162
+set firewall group address-group touchpay.ntpservers address 206.253.167.5
+set firewall group address-group touchpay.ntpservers address 158.43.128.33
+set firewall group address-group touchpay.ntpservers address 158.43.128.66
+set firewall group address-group touchpay.ntpservers address 91.189.89.199
+set firewall group address-group touchpay.ntpservers description ''
+set firewall group address-group touchpay.production address 74.112.132.36
+set firewall group address-group touchpay.production address 206.188.198.64
+set firewall group address-group touchpay.production address 205.178.146.249
+set firewall group address-group touchpay.production address 45.61.16.49
+set firewall group address-group touchpay.production address 54.192.123.225
+set firewall group address-group touchpay.production address 23.211.91.146
+set firewall group address-group touchpay.production address 45.61.84.137
+set firewall group address-group touchpay.production address 45.61.84.139
+set firewall group address-group touchpay.production address 216.87.148.114
+set firewall group address-group touchpay.production address 216.146.40.93
+set firewall group address-group touchpay.production address 45.61.84.246
+set firewall group address-group touchpay.production description ''
+set firewall group address-group touchpay.secureccprocessing address 64.94.118.32
+set firewall group address-group touchpay.secureccprocessing address 64.94.118.33
+set firewall group address-group touchpay.secureccprocessing address 64.94.118.151
+set firewall group address-group touchpay.secureccprocessing address 74.123.133.71
+set firewall group address-group touchpay.secureccprocessing address 74.123.133.73
+set firewall group address-group touchpay.secureccprocessing address 67.152.248.0/23
+set firewall group address-group touchpay.secureccprocessing address 45.61.84.61
+set firewall group address-group touchpay.secureccprocessing description ''
+set firewall group address-group touchpay.vantivpayment address 67.211.53.61
+set firewall group address-group touchpay.vantivpayment address 67.211.53.62
+set firewall group address-group touchpay.vantivpayment description ''
+set firewall group address-group tp-kiosks address 172.25.9.208/28
+set firewall group address-group tp-kiosks address 172.25.1.32/29
+set firewall group address-group tp-kiosks description ''

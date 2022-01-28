@@ -1,0 +1,804 @@
+set firewall all-ping enable
+set firewall broadcast-ping disable
+
+{% include "router/firewall_address-group.j2" %}
+
+set firewall group network-group vlans
+
+set firewall group port-group FocusGUI description ''
+{% for port in FocusGUI %}
+set firewall group port-group FocusGUI port {{ port }}
+{%- endfor %}
+
+set firewall group port-group dns.ports description 'DNS Ports'
+set firewall group port-group dns.ports port 53
+set firewall group port-group gtl.port.forward.allowed description 'Allowable Ports for 172.x Sites'
+set firewall group port-group gtl.port.forward.allowed port 22
+set firewall group port-group gtl.port.forward.allowed port 443
+set firewall group port-group gtl.port.forward.allowed port 8006
+set firewall group port-group ntp.port.public description 'NTP Ports for Internet Time'
+set firewall group port-group ntp.port.public port 123
+set firewall ipv6-receive-redirects disable
+set firewall ipv6-src-route disable
+set firewall ip-src-route disable
+set firewall log-martians enable
+set firewall name WAN_IN_ETH7 default-action drop
+set firewall name WAN_IN_ETH7 description ''
+set firewall name WAN_IN_ETH7 rule 10 action accept
+set firewall name WAN_IN_ETH7 rule 10 description gtl.ant/z.gb1.outside
+set firewall name WAN_IN_ETH7 rule 10 destination group address-group gtl.ant/z.gb1.outside
+set firewall name WAN_IN_ETH7 rule 10 log disable
+set firewall name WAN_IN_ETH7 rule 10 protocol all
+set firewall name WAN_IN_ETH7 rule 20 action accept
+set firewall name WAN_IN_ETH7 rule 20 description gtl.voice.voip.sbc
+set firewall name WAN_IN_ETH7 rule 20 log disable
+set firewall name WAN_IN_ETH7 rule 20 protocol all
+set firewall name WAN_IN_ETH7 rule 20 source group address-group gtl.voice.voip.sbc
+set firewall name WAN_IN_ETH7 rule 30 action accept
+set firewall name WAN_IN_ETH7 rule 30 description dns.ip.allowed
+set firewall name WAN_IN_ETH7 rule 30 log disable
+set firewall name WAN_IN_ETH7 rule 30 protocol all
+set firewall name WAN_IN_ETH7 rule 30 source group address-group dns.servers.public
+set firewall name WAN_IN_ETH7 rule 40 action drop
+set firewall name WAN_IN_ETH7 rule 40 description dns.public.ports.denied
+set firewall name WAN_IN_ETH7 rule 40 log disable
+set firewall name WAN_IN_ETH7 rule 40 protocol all
+set firewall name WAN_IN_ETH7 rule 40 source group port-group dns.ports
+set firewall name WAN_IN_ETH7 rule 50 action accept
+set firewall name WAN_IN_ETH7 rule 50 description 'Focus Platform GUI Access'
+set firewall name WAN_IN_ETH7 rule 50 destination group address-group VAC_ACCESS
+set firewall name WAN_IN_ETH7 rule 50 destination group port-group FocusGUI
+set firewall name WAN_IN_ETH7 rule 50 log disable
+set firewall name WAN_IN_ETH7 rule 50 protocol all
+set firewall name WAN_IN_ETH7 rule 60 action accept
+set firewall name WAN_IN_ETH7 rule 60 description 'SFTP for JMS.16'
+set firewall name WAN_IN_ETH7 rule 60 destination address 10.250.221.16/32
+set firewall name WAN_IN_ETH7 rule 60 destination port 22
+set firewall name WAN_IN_ETH7 rule 60 log disable
+set firewall name WAN_IN_ETH7 rule 60 protocol tcp
+set firewall name WAN_IN_ETH7 rule 60 source address 192.206.177.62/32
+set firewall name WAN_IN_ETH7 rule 70 action accept
+set firewall name WAN_IN_ETH7 rule 70 description 'SFTP for JMS.16'
+set firewall name WAN_IN_ETH7 rule 70 destination address 10.250.221.16/32
+set firewall name WAN_IN_ETH7 rule 70 destination port 22
+set firewall name WAN_IN_ETH7 rule 70 log disable
+set firewall name WAN_IN_ETH7 rule 70 protocol tcp
+set firewall name WAN_IN_ETH7 rule 70 source address 204.8.197.3/32
+set firewall name WAN_IN_ETH7 rule 80 action accept
+set firewall name WAN_IN_ETH7 rule 80 description 'SFTP for JMS.18'
+set firewall name WAN_IN_ETH7 rule 80 destination address 10.250.221.18/32
+set firewall name WAN_IN_ETH7 rule 80 destination port 22
+set firewall name WAN_IN_ETH7 rule 80 log disable
+set firewall name WAN_IN_ETH7 rule 80 protocol tcp
+set firewall name WAN_IN_ETH7 rule 80 source address 204.8.197.3/32
+set firewall name WAN_IN_ETH7 rule 90 action accept
+set firewall name WAN_IN_ETH7 rule 90 description gtl.sa.open.access
+set firewall name WAN_IN_ETH7 rule 90 destination group address-group gtl.sa.open.access
+set firewall name WAN_IN_ETH7 rule 90 log disable
+set firewall name WAN_IN_ETH7 rule 90 protocol all
+set firewall name WAN_IN_ETH7 rule 90 source group
+set firewall name WAN_IN_ETH7 rule 100 action accept
+set firewall name WAN_IN_ETH7 rule 100 description gtl.naas.vlan.400
+set firewall name WAN_IN_ETH7 rule 100 destination group address-group pat03.eth6.naas
+set firewall name WAN_IN_ETH7 rule 100 log disable
+set firewall name WAN_IN_ETH7 rule 100 protocol all
+set firewall name WAN_IN_ETH7 rule 120 action accept
+set firewall name WAN_IN_ETH7 rule 120 description gtl.port.forward.allowed.data.centers
+set firewall name WAN_IN_ETH7 rule 120 destination group port-group gtl.port.forward.allowed
+set firewall name WAN_IN_ETH7 rule 120 log disable
+set firewall name WAN_IN_ETH7 rule 120 protocol all
+set firewall name WAN_IN_ETH7 rule 120 source group address-group gtl.data.centers
+set firewall name WAN_IN_ETH7 rule 130 action accept
+set firewall name WAN_IN_ETH7 rule 130 description gtl.port.forward.allowed.offices
+set firewall name WAN_IN_ETH7 rule 130 destination group port-group gtl.port.forward.allowed
+set firewall name WAN_IN_ETH7 rule 130 log disable
+set firewall name WAN_IN_ETH7 rule 130 protocol all
+set firewall name WAN_IN_ETH7 rule 130 source group address-group gtl.offices
+set firewall name WAN_IN_ETH7 rule 140 action accept
+set firewall name WAN_IN_ETH7 rule 140 description 'gtl.voice.gatewway.ata      '
+set firewall name WAN_IN_ETH7 rule 140 destination group address-group gtl.voice.gatewway.ata
+set firewall name WAN_IN_ETH7 rule 140 log disable
+set firewall name WAN_IN_ETH7 rule 140 protocol all
+set firewall name WAN_IN_ETH7 rule 150 action accept
+set firewall name WAN_IN_ETH7 rule 150 description gtl.kiosk
+set firewall name WAN_IN_ETH7 rule 150 destination group address-group gtl.kiosk
+set firewall name WAN_IN_ETH7 rule 150 log disable
+set firewall name WAN_IN_ETH7 rule 150 protocol all
+set firewall name WAN_IN_ETH7 rule 160 action accept
+set firewall name WAN_IN_ETH7 rule 160 description gtl.command.public.ips
+set firewall name WAN_IN_ETH7 rule 160 log disable
+set firewall name WAN_IN_ETH7 rule 160 protocol all
+set firewall name WAN_IN_ETH7 rule 160 source group address-group gtl.command.public.ips
+set firewall name WAN_IN_ETH7 rule 170 action accept
+set firewall name WAN_IN_ETH7 rule 170 description gtl.data.centers
+set firewall name WAN_IN_ETH7 rule 170 log disable
+set firewall name WAN_IN_ETH7 rule 170 protocol all
+set firewall name WAN_IN_ETH7 rule 170 source group address-group gtl.data.centers
+set firewall name WAN_IN_ETH7 rule 180 action accept
+set firewall name WAN_IN_ETH7 rule 180 description gtl.offices
+set firewall name WAN_IN_ETH7 rule 180 log disable
+set firewall name WAN_IN_ETH7 rule 180 protocol all
+set firewall name WAN_IN_ETH7 rule 180 source group address-group gtl.offices
+set firewall name WAN_IN_ETH7 rule 190 action accept
+set firewall name WAN_IN_ETH7 rule 190 description gtl.iperf.public
+set firewall name WAN_IN_ETH7 rule 190 log disable
+set firewall name WAN_IN_ETH7 rule 190 protocol all
+set firewall name WAN_IN_ETH7 rule 190 source group address-group gtl.iperf.public
+set firewall name WAN_IN_ETH7 rule 200 action accept
+set firewall name WAN_IN_ETH7 rule 200 description gtl.unifi.controllers
+set firewall name WAN_IN_ETH7 rule 200 log disable
+set firewall name WAN_IN_ETH7 rule 200 protocol all
+set firewall name WAN_IN_ETH7 rule 200 source group address-group gtl.unifi.controllers
+set firewall name WAN_IN_ETH7 rule 210 action accept
+set firewall name WAN_IN_ETH7 rule 210 description gtl.unms.public
+set firewall name WAN_IN_ETH7 rule 210 log disable
+set firewall name WAN_IN_ETH7 rule 210 protocol all
+set firewall name WAN_IN_ETH7 rule 210 source group address-group gtl.unms.public
+set firewall name WAN_IN_ETH7 rule 220 action accept
+set firewall name WAN_IN_ETH7 rule 220 description ntp.port.public
+set firewall name WAN_IN_ETH7 rule 220 log disable
+set firewall name WAN_IN_ETH7 rule 220 protocol udp
+set firewall name WAN_IN_ETH7 rule 220 source group port-group ntp.port.public
+set firewall name WAN_IN_ETH7 rule 220 state established enable
+set firewall name WAN_IN_ETH7 rule 220 state invalid disable
+set firewall name WAN_IN_ETH7 rule 220 state new enable
+set firewall name WAN_IN_ETH7 rule 220 state related enable
+set firewall name WAN_IN_ETH7 rule 230 action accept
+set firewall name WAN_IN_ETH7 rule 230 description 'TouchPay NTP Servers'
+set firewall name WAN_IN_ETH7 rule 230 log disable
+set firewall name WAN_IN_ETH7 rule 230 protocol all
+set firewall name WAN_IN_ETH7 rule 230 source group address-group touchpay.ntpservers
+set firewall name WAN_IN_ETH7 rule 240 action accept
+set firewall name WAN_IN_ETH7 rule 240 description 'TouchPay Production'
+set firewall name WAN_IN_ETH7 rule 240 log disable
+set firewall name WAN_IN_ETH7 rule 240 protocol all
+set firewall name WAN_IN_ETH7 rule 240 source group address-group touchpay.production
+set firewall name WAN_IN_ETH7 rule 250 action accept
+set firewall name WAN_IN_ETH7 rule 250 description 'TouchPay Secure CC Processing'
+set firewall name WAN_IN_ETH7 rule 250 log disable
+set firewall name WAN_IN_ETH7 rule 250 protocol all
+set firewall name WAN_IN_ETH7 rule 250 source group address-group touchpay.secureccprocessing
+set firewall name WAN_IN_ETH7 rule 260 action accept
+set firewall name WAN_IN_ETH7 rule 260 description 'TouchPay Log Servers'
+set firewall name WAN_IN_ETH7 rule 260 log disable
+set firewall name WAN_IN_ETH7 rule 260 protocol all
+set firewall name WAN_IN_ETH7 rule 260 source group address-group touchpay.logservers
+set firewall name WAN_IN_ETH7 rule 270 action accept
+set firewall name WAN_IN_ETH7 rule 270 description 'Touchpay Vantiv Payment'
+set firewall name WAN_IN_ETH7 rule 270 log disable
+set firewall name WAN_IN_ETH7 rule 270 protocol all
+set firewall name WAN_IN_ETH7 rule 270 source group address-group touchpay.vantivpayment
+set firewall name WAN_LOCAL default-action drop
+set firewall name WAN_LOCAL description ''
+set firewall name WAN_LOCAL rule 10 action accept
+set firewall name WAN_LOCAL rule 10 description s2s.vpn.gtl.private.ip.space
+set firewall name WAN_LOCAL rule 10 log disable
+set firewall name WAN_LOCAL rule 10 protocol all
+set firewall name WAN_LOCAL rule 10 source group address-group gtl.private.ip.space
+set firewall name WAN_LOCAL rule 20 action accept
+set firewall name WAN_LOCAL rule 20 description dns.servers.public
+set firewall name WAN_LOCAL rule 20 log disable
+set firewall name WAN_LOCAL rule 20 protocol all
+set firewall name WAN_LOCAL rule 20 source group address-group dns.servers.public
+set firewall name WAN_LOCAL rule 30 action accept
+set firewall name WAN_LOCAL rule 30 description gtl.data.centers
+set firewall name WAN_LOCAL rule 30 log disable
+set firewall name WAN_LOCAL rule 30 protocol all
+set firewall name WAN_LOCAL rule 30 source group address-group gtl.data.centers
+set firewall name WAN_LOCAL rule 40 action accept
+set firewall name WAN_LOCAL rule 40 description gtl.unifi.controllers
+set firewall name WAN_LOCAL rule 40 destination group
+set firewall name WAN_LOCAL rule 40 log disable
+set firewall name WAN_LOCAL rule 40 protocol all
+set firewall name WAN_LOCAL rule 40 source group address-group gtl.unifi.controllers
+set firewall name WAN_LOCAL rule 50 action accept
+set firewall name WAN_LOCAL rule 50 description gtl.iperf.public
+set firewall name WAN_LOCAL rule 50 log disable
+set firewall name WAN_LOCAL rule 50 protocol all
+set firewall name WAN_LOCAL rule 50 source group address-group gtl.iperf.public
+set firewall name WAN_LOCAL rule 60 action accept
+set firewall name WAN_LOCAL rule 60 description gtl.offices
+set firewall name WAN_LOCAL rule 60 log disable
+set firewall name WAN_LOCAL rule 60 protocol all
+set firewall name WAN_LOCAL rule 60 source group address-group gtl.offices
+set firewall name WAN_LOCAL rule 70 action accept
+set firewall name WAN_LOCAL rule 70 description gtl.unms.private
+set firewall name WAN_LOCAL rule 70 log disable
+set firewall name WAN_LOCAL rule 70 protocol all
+set firewall name WAN_LOCAL rule 70 source group address-group gtl.unms.private
+set firewall name WAN_LOCAL rule 80 action accept
+set firewall name WAN_LOCAL rule 80 description gtl.unms.public
+set firewall name WAN_LOCAL rule 80 log disable
+set firewall name WAN_LOCAL rule 80 protocol all
+set firewall name WAN_LOCAL rule 80 source group address-group gtl.unms.public
+set firewall name WAN_LOCAL rule 90 action accept
+set firewall name WAN_LOCAL rule 90 description ntp.port.public
+set firewall name WAN_LOCAL rule 90 log disable
+set firewall name WAN_LOCAL rule 90 protocol udp
+set firewall name WAN_LOCAL rule 90 source group port-group ntp.port.public
+set firewall name WAN_LOCAL rule 90 state established enable
+set firewall name WAN_LOCAL rule 90 state invalid disable
+set firewall name WAN_LOCAL rule 90 state new enable
+set firewall name WAN_LOCAL rule 90 state related enable
+set firewall name WAN_LOCAL rule 91 action accept
+set firewall name WAN_LOCAL rule 91 description ICMP
+set firewall name WAN_LOCAL rule 91 log disable
+set firewall name WAN_LOCAL rule 91 protocol icmp
+set firewall name wan.in.eth0 default-action drop
+set firewall name wan.in.eth0 description ''
+set firewall name wan.in.eth0 rule 10 action accept
+set firewall name wan.in.eth0 rule 10 description gtl.telemedicine.vlan.300
+set firewall name wan.in.eth0 rule 10 destination group address-group pat02.eth5.telemedicine
+set firewall name wan.in.eth0 rule 10 log disable
+set firewall name wan.in.eth0 rule 10 protocol all
+set firewall name wan.in.eth0 rule 20 action accept
+set firewall name wan.in.eth0 rule 20 description gtl.naas.vlan.400
+set firewall name wan.in.eth0 rule 20 destination group address-group pat03.eth6.naas
+set firewall name wan.in.eth0 rule 20 log disable
+set firewall name wan.in.eth0 rule 20 protocol all
+set firewall name wan.in.eth0 rule 30 action accept
+set firewall name wan.in.eth0 rule 30 description gtl.sa.open.access
+set firewall name wan.in.eth0 rule 30 destination group address-group gtl.sa.open.access
+set firewall name wan.in.eth0 rule 30 log disable
+set firewall name wan.in.eth0 rule 30 protocol all
+set firewall name wan.in.eth0 rule 30 source group
+set firewall name wan.in.eth0 rule 40 action accept
+set firewall name wan.in.eth0 rule 40 description gtl.port.forward.allowed.data.centers
+set firewall name wan.in.eth0 rule 40 destination group port-group gtl.port.forward.allowed
+set firewall name wan.in.eth0 rule 40 log disable
+set firewall name wan.in.eth0 rule 40 protocol all
+set firewall name wan.in.eth0 rule 40 source group address-group gtl.data.centers
+set firewall name wan.in.eth0 rule 50 action accept
+set firewall name wan.in.eth0 rule 50 description gtl.port.forward.allowed.offices
+set firewall name wan.in.eth0 rule 50 destination group port-group gtl.port.forward.allowed
+set firewall name wan.in.eth0 rule 50 log disable
+set firewall name wan.in.eth0 rule 50 protocol all
+set firewall name wan.in.eth0 rule 50 source group address-group gtl.offices
+set firewall name wan.in.eth0 rule 60 action accept
+set firewall name wan.in.eth0 rule 60 description gtl.ant/z.gb1.outside
+set firewall name wan.in.eth0 rule 60 destination group address-group gtl.ant/z.gb1.outside
+set firewall name wan.in.eth0 rule 60 log disable
+set firewall name wan.in.eth0 rule 60 protocol all
+set firewall name wan.in.eth0 rule 70 action accept
+set firewall name wan.in.eth0 rule 70 description 'gtl.voice.gatewway.ata       '
+set firewall name wan.in.eth0 rule 70 destination group address-group gtl.voice.gatewway.ata
+set firewall name wan.in.eth0 rule 70 log disable
+set firewall name wan.in.eth0 rule 70 protocol all
+set firewall name wan.in.eth0 rule 80 action accept
+set firewall name wan.in.eth0 rule 80 description gtl.kiosk
+set firewall name wan.in.eth0 rule 80 destination group address-group gtl.kiosk
+set firewall name wan.in.eth0 rule 80 log disable
+set firewall name wan.in.eth0 rule 80 protocol all
+set firewall name wan.in.eth0 rule 90 action accept
+set firewall name wan.in.eth0 rule 90 description gtl.command.public.ips
+set firewall name wan.in.eth0 rule 90 log disable
+set firewall name wan.in.eth0 rule 90 protocol all
+set firewall name wan.in.eth0 rule 90 source group address-group gtl.command.public.ips
+set firewall name wan.in.eth0 rule 100 action accept
+set firewall name wan.in.eth0 rule 100 description gtl.data.centers
+set firewall name wan.in.eth0 rule 100 log disable
+set firewall name wan.in.eth0 rule 100 protocol all
+set firewall name wan.in.eth0 rule 100 source group address-group gtl.data.centers
+set firewall name wan.in.eth0 rule 110 action accept
+set firewall name wan.in.eth0 rule 110 description gtl.offices
+set firewall name wan.in.eth0 rule 110 log disable
+set firewall name wan.in.eth0 rule 110 protocol all
+set firewall name wan.in.eth0 rule 110 source group address-group gtl.offices
+set firewall name wan.in.eth0 rule 120 action accept
+set firewall name wan.in.eth0 rule 120 description gtl.iperf.public
+set firewall name wan.in.eth0 rule 120 log disable
+set firewall name wan.in.eth0 rule 120 protocol all
+set firewall name wan.in.eth0 rule 120 source group address-group gtl.iperf.public
+set firewall name wan.in.eth0 rule 130 action accept
+set firewall name wan.in.eth0 rule 130 description gtl.unifi.controllers
+set firewall name wan.in.eth0 rule 130 log disable
+set firewall name wan.in.eth0 rule 130 protocol all
+set firewall name wan.in.eth0 rule 130 source group address-group gtl.unifi.controllers
+set firewall name wan.in.eth0 rule 140 action accept
+set firewall name wan.in.eth0 rule 140 description gtl.unms.public
+set firewall name wan.in.eth0 rule 140 log disable
+set firewall name wan.in.eth0 rule 140 protocol all
+set firewall name wan.in.eth0 rule 140 source group address-group gtl.unms.public
+set firewall name wan.in.eth0 rule 150 action accept
+set firewall name wan.in.eth0 rule 150 description ntp.port.public
+set firewall name wan.in.eth0 rule 150 log disable
+set firewall name wan.in.eth0 rule 150 protocol udp
+set firewall name wan.in.eth0 rule 150 source group port-group ntp.port.public
+set firewall name wan.in.eth0 rule 150 state established enable
+set firewall name wan.in.eth0 rule 150 state invalid disable
+set firewall name wan.in.eth0 rule 150 state new enable
+set firewall name wan.in.eth0 rule 150 state related enable
+set firewall name wan.in.eth0 rule 160 action accept
+set firewall name wan.in.eth0 rule 160 description DNS
+set firewall name wan.in.eth0 rule 160 log disable
+set firewall name wan.in.eth0 rule 160 protocol all
+set firewall name wan.in.eth0 rule 160 source group address-group dns.servers.public
+set firewall name wan.in.eth0 rule 170 action accept
+set firewall name wan.in.eth0 rule 170 description 'TouchPay NTP Servers'
+set firewall name wan.in.eth0 rule 170 log disable
+set firewall name wan.in.eth0 rule 170 protocol all
+set firewall name wan.in.eth0 rule 170 source group address-group touchpay.ntpservers
+set firewall name wan.in.eth0 rule 180 action accept
+set firewall name wan.in.eth0 rule 180 description 'TouchPay Production'
+set firewall name wan.in.eth0 rule 180 log disable
+set firewall name wan.in.eth0 rule 180 protocol all
+set firewall name wan.in.eth0 rule 180 source group address-group touchpay.production
+set firewall name wan.in.eth0 rule 190 action accept
+set firewall name wan.in.eth0 rule 190 description 'TouchPay Secure CC Processing'
+set firewall name wan.in.eth0 rule 190 log disable
+set firewall name wan.in.eth0 rule 190 protocol all
+set firewall name wan.in.eth0 rule 190 source group address-group touchpay.secureccprocessing
+set firewall name wan.in.eth0 rule 200 action accept
+set firewall name wan.in.eth0 rule 200 description 'TouchPay Log Servers'
+set firewall name wan.in.eth0 rule 200 log disable
+set firewall name wan.in.eth0 rule 200 protocol all
+set firewall name wan.in.eth0 rule 200 source group address-group touchpay.logservers
+set firewall name wan.in.eth0 rule 210 action accept
+set firewall name wan.in.eth0 rule 210 description 'Touchpay Vantiv Payment'
+set firewall name wan.in.eth0 rule 210 log disable
+set firewall name wan.in.eth0 rule 210 protocol all
+set firewall name wan.in.eth0 rule 210 source group address-group touchpay.vantivpayment
+set firewall name wan.in.eth1.ant.mgmt.vlan01 default-action accept
+set firewall name wan.in.eth1.ant.mgmt.vlan01 description ''
+set firewall name wan.in.eth2.dmz01.vlan05 default-action accept
+set firewall name wan.in.eth2.dmz01.vlan05 description ''
+set firewall name wan.in.eth3.dmz02.vlan10 default-action accept
+set firewall name wan.in.eth3.dmz02.vlan10 description ''
+set firewall name wan.in.eth4.backo.vlan15 default-action accept
+set firewall name wan.in.eth4.backo.vlan15 description ''
+set firewall name wan.in.eth5.telemed.vlan300 default-action accept
+set firewall name wan.in.eth5.telemed.vlan300 description ''
+set firewall name wan.in.eth6.n.as.s.vlan400 default-action accept
+set firewall name wan.in.eth6.n.as.s.vlan400 description ''
+set firewall name wan.in.eth7.ap.xl.vlan500 default-action accept
+set firewall name wan.in.eth7.ap.xl.vlan500 description ''
+set firewall receive-redirects disable
+set firewall send-redirects enable
+set firewall source-validation disable
+set firewall syn-cookies enable
+set interfaces ethernet eth0 address 10.125.0.1/24
+set interfaces ethernet eth0 description 'Antz GB01/SW Mgmt/AP Mgmt/Vlan 01'
+set interfaces ethernet eth0 duplex auto
+set interfaces ethernet eth0 speed auto
+set interfaces ethernet eth1 address 10.250.221.1/24
+set interfaces ethernet eth1 description GTL_Focus_Platform
+set interfaces ethernet eth1 duplex auto
+set interfaces ethernet eth1 speed auto
+set interfaces ethernet eth2 address 10.125.1.1/24
+set interfaces ethernet eth2 description 'DMZ 01/Vlan 05'
+set interfaces ethernet eth2 duplex auto
+set interfaces ethernet eth2 speed auto
+set interfaces ethernet eth3 description 'DMZ 02/Vlan 10'
+set interfaces ethernet eth3 duplex auto
+set interfaces ethernet eth3 speed auto
+set interfaces ethernet eth3 vif 10 address 172.25.1.33/29
+set interfaces ethernet eth3 vif 10 description 'TP Kiosks VLAN 10'
+set interfaces ethernet eth3 vif 10 firewall in
+set interfaces ethernet eth3 vif 10 mtu 1500
+set interfaces ethernet eth3 vif 11 address 172.25.9.209/28
+set interfaces ethernet eth3 vif 11 description 'TP Kiosks VLAN 11'
+set interfaces ethernet eth3 vif 11 firewall in
+set interfaces ethernet eth4 description '1Gb Fiber LAN | NEW'
+set interfaces ethernet eth4 disable
+set interfaces ethernet eth4 duplex auto
+set interfaces ethernet eth4 speed auto
+set interfaces ethernet eth5 address 160.72.115.250/30
+set interfaces ethernet eth5 description '1Gb Fiber WAN | NEW'
+set interfaces ethernet eth5 duplex auto
+set interfaces ethernet eth5 firewall in name WAN_IN_ETH7
+set interfaces ethernet eth5 firewall local name WAN_LOCAL
+set interfaces ethernet eth5 firewall out
+set interfaces ethernet eth5 speed auto
+set interfaces ethernet eth6 address 10.125.5.1/24
+set interfaces ethernet eth6 description 'Network as a Service / VLAN 400'
+set interfaces ethernet eth6 duplex auto
+set interfaces ethernet eth6 speed auto
+set interfaces ethernet eth7 duplex auto
+set interfaces ethernet eth7 speed auto
+set interfaces ethernet eth8 duplex auto
+set interfaces ethernet eth8 speed auto
+set interfaces ethernet eth9 address 192.168.10.1/24
+set interfaces ethernet eth9 description 'Temporary MGMT'
+set interfaces ethernet eth9 duplex auto
+set interfaces ethernet eth9 poe output off
+set interfaces ethernet eth9 speed auto
+set interfaces ethernet eth10 duplex auto
+set interfaces ethernet eth10 speed auto
+set interfaces ethernet eth11 duplex auto
+set interfaces ethernet eth11 speed auto
+set interfaces loopback lo
+set interfaces switch switch0 mtu 1500
+set port-forward auto-firewall disable
+set port-forward hairpin-nat disable
+set port-forward lan-interface eth0
+set port-forward lan-interface eth1
+set port-forward rule 1 description kiosk
+set port-forward rule 1 forward-to address 172.25.39.58
+set port-forward rule 1 forward-to port 223
+set port-forward rule 1 original-port 9091
+set port-forward rule 1 protocol tcp_udp
+set port-forward rule 2 description kiosk
+set port-forward rule 2 forward-to address 172.25.39.58
+set port-forward rule 2 forward-to port 222
+set port-forward rule 2 original-port 9092
+set port-forward rule 2 protocol tcp_udp
+set port-forward wan-interface eth5
+set protocols static route 0.0.0.0/0 next-hop 10.10.1.1 disable
+set protocols static route 0.0.0.0/0 next-hop 160.72.115.249 description '1GB Fiber Circuit'
+set service dhcp-server disabled false
+set service dhcp-server hostfile-update disable
+set service dhcp-server shared-network-name Temporary_MGMT authoritative disable
+set service dhcp-server shared-network-name Temporary_MGMT subnet 192.168.10.0/24 default-router 192.168.10.1
+set service dhcp-server shared-network-name Temporary_MGMT subnet 192.168.10.0/24 dns-server 192.168.10.1
+set service dhcp-server shared-network-name Temporary_MGMT subnet 192.168.10.0/24 lease 86400
+set service dhcp-server shared-network-name Temporary_MGMT subnet 192.168.10.0/24 start 192.168.10.100 stop 192.168.10.200
+set service dhcp-server shared-network-name eth1.ant.mgmt.vlan01 authoritative disable
+set service dhcp-server shared-network-name eth1.ant.mgmt.vlan01 subnet 10.125.0.0/24 default-router 10.125.0.1
+set service dhcp-server shared-network-name eth1.ant.mgmt.vlan01 subnet 10.125.0.0/24 dns-server 10.125.0.1
+set service dhcp-server shared-network-name eth1.ant.mgmt.vlan01 subnet 10.125.0.0/24 lease 1800
+set service dhcp-server shared-network-name eth1.ant.mgmt.vlan01 subnet 10.125.0.0/24 start 10.125.0.100 stop 10.125.0.250
+set service dhcp-server shared-network-name eth1.ant.mgmt.vlan01 subnet 10.125.0.0/24 static-mapping DESKTOP-K6J2N20 ip-address 10.125.0.151
+set service dhcp-server shared-network-name eth1.ant.mgmt.vlan01 subnet 10.125.0.0/24 static-mapping DESKTOP-K6J2N20 mac-address '00:e0:4c:68:00:3a'
+set service dhcp-server shared-network-name eth1.ant.mgmt.vlan01 subnet 10.125.0.0/24 static-mapping GTL-SITENAME-ES16-IDF-NAME ip-address 10.125.0.22
+set service dhcp-server shared-network-name eth1.ant.mgmt.vlan01 subnet 10.125.0.0/24 static-mapping GTL-SITENAME-ES16-IDF-NAME mac-address '74:ac:b9:ac:a1:1a'
+set service dhcp-server shared-network-name eth1.ant.mgmt.vlan01 subnet 10.125.0.0/24 static-mapping antz1-us-nj-essex1 ip-address 10.125.0.81
+set service dhcp-server shared-network-name eth1.ant.mgmt.vlan01 subnet 10.125.0.0/24 static-mapping antz1-us-nj-essex1 mac-address '5a:b8:fd:bb:f2:e5'
+set service dhcp-server shared-network-name eth1.ant.mgmt.vlan01 subnet 10.125.0.0/24 static-mapping antz1-us-nj-essex2 ip-address 10.125.0.82
+set service dhcp-server shared-network-name eth1.ant.mgmt.vlan01 subnet 10.125.0.0/24 static-mapping antz1-us-nj-essex2 mac-address '3e:18:f6:be:2b:d1'
+set service dhcp-server shared-network-name eth1.ant.mgmt.vlan01 subnet 10.125.0.0/24 static-mapping antz1-us-nj-essex3 ip-address 10.125.0.83
+set service dhcp-server shared-network-name eth1.ant.mgmt.vlan01 subnet 10.125.0.0/24 static-mapping antz1-us-nj-essex3 mac-address 'd6:09:d9:df:08:9e'
+set service dhcp-server shared-network-name eth1.ant.mgmt.vlan01 subnet 10.125.0.0/24 static-mapping ant-essex-media1-nj ip-address 10.125.0.80
+set service dhcp-server shared-network-name eth1.ant.mgmt.vlan01 subnet 10.125.0.0/24 static-mapping ant-essex-media1-nj mac-address 'ea:88:99:f5:80:fe'
+set service dhcp-server shared-network-name eth1.ant.mgmt.vlan01 subnet 10.125.0.0/24 static-mapping iDRAC-41XL333 ip-address 10.125.0.72
+set service dhcp-server shared-network-name eth1.ant.mgmt.vlan01 subnet 10.125.0.0/24 static-mapping iDRAC-41XL333 mac-address '6c:2b:59:c3:3c:63'
+set service dhcp-server shared-network-name eth1.ant.mgmt.vlan01 subnet 10.125.0.0/24 static-mapping iDRAC-41YL333 ip-address 10.125.0.71
+set service dhcp-server shared-network-name eth1.ant.mgmt.vlan01 subnet 10.125.0.0/24 static-mapping iDRAC-41YL333 mac-address '6c:2b:59:c2:31:8b'
+set service dhcp-server shared-network-name eth1.ant.mgmt.vlan01 subnet 10.125.0.0/24 static-mapping iDRAC-41YM333 ip-address 10.125.0.73
+set service dhcp-server shared-network-name eth1.ant.mgmt.vlan01 subnet 10.125.0.0/24 static-mapping iDRAC-41YM333 mac-address '6c:2b:59:c1:e0:c3'
+set service dhcp-server shared-network-name eth1.ant.mgmt.vlan01 subnet 10.125.0.0/24 static-mapping pve-essex1-nj ip-address 10.125.0.75
+set service dhcp-server shared-network-name eth1.ant.mgmt.vlan01 subnet 10.125.0.0/24 static-mapping pve-essex1-nj mac-address '6c:2b:59:c2:31:91'
+set service dhcp-server shared-network-name eth1.ant.mgmt.vlan01 subnet 10.125.0.0/24 static-mapping pve-essex2-nj ip-address 10.125.0.76
+set service dhcp-server shared-network-name eth1.ant.mgmt.vlan01 subnet 10.125.0.0/24 static-mapping pve-essex2-nj mac-address '6c:2b:59:c3:3c:69'
+set service dhcp-server shared-network-name eth1.ant.mgmt.vlan01 subnet 10.125.0.0/24 static-mapping pve-essex3-nj ip-address 10.125.0.77
+set service dhcp-server shared-network-name eth1.ant.mgmt.vlan01 subnet 10.125.0.0/24 static-mapping pve-essex3-nj mac-address '6c:2b:59:c1:e0:c9'
+set service dhcp-server shared-network-name eth1.ant.mgmt.vlan01 subnet 10.125.0.0/24 unifi-controller 54.147.141.170
+set service dhcp-server shared-network-name eth6.n.as.s.vlan400 authoritative disable
+set service dhcp-server shared-network-name eth6.n.as.s.vlan400 subnet 10.125.5.0/24 default-router 10.125.5.1
+set service dhcp-server shared-network-name eth6.n.as.s.vlan400 subnet 10.125.5.0/24 dns-server 10.125.5.1
+set service dhcp-server shared-network-name eth6.n.as.s.vlan400 subnet 10.125.5.0/24 lease 86400
+set service dhcp-server shared-network-name eth6.n.as.s.vlan400 subnet 10.125.5.0/24 start 10.125.5.100 stop 10.125.5.150
+set service dhcp-server static-arp disable
+set service dhcp-server use-dnsmasq disable
+set service dns forwarding cache-size 150
+set service dns forwarding listen-on eth0
+set service dns forwarding listen-on eth1
+set service dns forwarding listen-on eth2
+set service dns forwarding listen-on eth3
+set service dns forwarding listen-on eth4
+set service dns forwarding listen-on eth5
+set service dns forwarding listen-on eth6
+set service dns forwarding listen-on eth3.10
+set service dns forwarding listen-on eth3.11
+set service dns forwarding name-server 8.8.8.8
+set service gui http-port 80
+set service gui https-port 443
+set service gui older-ciphers enable
+set service lldp
+set service nat rule 1 description 'Kiosk #1 - TPL-50013'
+set service nat rule 1 destination address 160.72.155.196
+set service nat rule 1 destination port 222
+set service nat rule 1 inbound-interface eth5
+set service nat rule 1 inside-address address 172.25.1.34
+set service nat rule 1 inside-address port 22
+set service nat rule 1 log disable
+set service nat rule 1 protocol tcp
+set service nat rule 1 type destination
+set service nat rule 2 description 'Kiosk #2 - TPL-60013'
+set service nat rule 2 destination address 160.72.155.196
+set service nat rule 2 destination port 223
+set service nat rule 2 inbound-interface eth5
+set service nat rule 2 inside-address address 172.25.1.35
+set service nat rule 2 inside-address port 22
+set service nat rule 2 log disable
+set service nat rule 2 protocol tcp
+set service nat rule 2 type destination
+set service nat rule 3 description 'Intake Kiosk #3 - TPI-30013'
+set service nat rule 3 destination address 160.72.155.196
+set service nat rule 3 destination port 224
+set service nat rule 3 inbound-interface eth5
+set service nat rule 3 inside-address address 172.25.9.214
+set service nat rule 3 inside-address port 22
+set service nat rule 3 log disable
+set service nat rule 3 protocol tcp
+set service nat rule 3 type destination
+set service nat rule 4 description 'Intake Kiosk #4 - TPI-40013'
+set service nat rule 4 destination address 160.72.155.196
+set service nat rule 4 destination port 225
+set service nat rule 4 inbound-interface eth5
+set service nat rule 4 inside-address address 172.25.9.216
+set service nat rule 4 inside-address port 22
+set service nat rule 4 log disable
+set service nat rule 4 protocol tcp
+set service nat rule 4 type destination
+set service nat rule 5 description 'Intake Kiosk #5 - TPI-70013 '
+set service nat rule 5 destination address 160.72.155.196
+set service nat rule 5 destination port 226
+set service nat rule 5 inbound-interface eth5
+set service nat rule 5 inside-address address 172.25.9.218
+set service nat rule 5 inside-address port 22
+set service nat rule 5 log disable
+set service nat rule 5 protocol tcp
+set service nat rule 5 type destination
+set service nat rule 6 description 'Focus Server #1'
+set service nat rule 6 destination address 160.72.155.194
+set service nat rule 6 inbound-interface eth5
+set service nat rule 6 inside-address address 10.250.221.16
+set service nat rule 6 log disable
+set service nat rule 6 protocol all
+set service nat rule 6 type destination
+set service nat rule 7 description 'Focus Server #2'
+set service nat rule 7 destination address 160.72.155.195
+set service nat rule 7 inbound-interface eth5
+set service nat rule 7 inside-address address 10.250.221.18
+set service nat rule 7 log disable
+set service nat rule 7 protocol all
+set service nat rule 7 type destination
+set service nat rule 8 description 'Focus Server #3'
+set service nat rule 8 destination address 160.72.116.250
+set service nat rule 8 disable
+set service nat rule 8 inbound-interface eth5
+set service nat rule 8 inside-address address 10.250.221.16
+set service nat rule 8 log disable
+set service nat rule 8 protocol all
+set service nat rule 8 source
+set service nat rule 8 type destination
+set service nat rule 9 description 'Keefe NIC'
+set service nat rule 9 destination port 10080
+set service nat rule 9 inbound-interface eth5
+set service nat rule 9 inside-address address 10.125.0.6
+set service nat rule 9 inside-address port 80
+set service nat rule 9 log disable
+set service nat rule 9 protocol tcp_udp
+set service nat rule 9 source group address-group Telmate-Servers
+set service nat rule 9 type destination
+set service nat rule 10 description 'Keefe NIC_443'
+set service nat rule 10 destination port 80
+set service nat rule 10 inbound-interface eth5
+set service nat rule 10 inside-address address 10.125.0.6
+set service nat rule 10 inside-address port 443
+set service nat rule 10 log disable
+set service nat rule 10 protocol tcp_udp
+set service nat rule 10 source group address-group Keefe-Telmate_443
+set service nat rule 10 type destination
+set service nat rule 11 description 'Telmate VPN Destination Route'
+set service nat rule 11 destination address 10.50.250.0/24
+set service nat rule 11 inbound-interface eth5
+set service nat rule 11 inside-address address 172.22.1.0/24
+set service nat rule 11 log disable
+set service nat rule 11 protocol all
+set service nat rule 11 type destination
+set service nat rule 5001 description 'Focus Server #1'
+set service nat rule 5001 log disable
+set service nat rule 5001 outbound-interface eth5
+set service nat rule 5001 outside-address address 160.72.155.194
+set service nat rule 5001 protocol all
+set service nat rule 5001 source address 10.250.221.16
+set service nat rule 5001 type source
+set service nat rule 5002 description 'Focus Server #2'
+set service nat rule 5002 log disable
+set service nat rule 5002 outbound-interface eth5
+set service nat rule 5002 outside-address address 160.72.155.195
+set service nat rule 5002 protocol all
+set service nat rule 5002 source address 10.250.221.18
+set service nat rule 5002 source group
+set service nat rule 5002 type source
+set service nat rule 5004 description 'TP Kiosk #1'
+set service nat rule 5004 log disable
+set service nat rule 5004 outbound-interface eth5
+set service nat rule 5004 outside-address address 160.72.155.196
+set service nat rule 5004 protocol all
+set service nat rule 5004 source group address-group tp-kiosks
+set service nat rule 5004 type source
+set service nat rule 5007 description 'masquerade for NEW Fiber 1Gbps'
+set service nat rule 5007 log disable
+set service nat rule 5007 outbound-interface eth5
+set service nat rule 5007 protocol all
+set service nat rule 5007 type masquerade
+set service snmp community tyger authorization ro
+set service snmp contact NetOps
+set service snmp location telmate
+set service ssh port 22
+set service ssh protocol-version v2
+set service unms connection 'wss://gtlunms.gtl.us:443+yk73XJTX5S5B8EGSWyGWagETyg8NLBXJwjmFXl2lA00YwRHP+allowSelfSignedCertificate'
+set service unms disable
+set system config-management commit-revisions 20
+set system conntrack expect-table-size 2048
+set system conntrack hash-size 4096
+set system conntrack modules sip enable-indirect-media
+set system conntrack modules sip port 5060
+set system conntrack table-size 32768
+set system conntrack tcp half-open-connections 512
+set system conntrack tcp loose enable
+set system conntrack tcp max-retrans 3
+set system domain-name essex.nj.telmate.cc
+set system host-name essex.nj.telmate.cc
+set system login banner post-login '\nYou are logged into EdgeRouter 8-Pro.\n\nAny change(s) made will need an approval and a Change Management Incident!\n\n'
+set system login banner pre-login '\n**********************************************************************\n* GLOBAL TEL*LINK\n*\n* When you proceed, you must agree with the policy and\n* terms stated in this device. If not, disconnect now.\n* Access granted to Authorized user only, no exception.\n* All other access is illegal. Any changes to this\n* device *MUST* obtain approval from Global Tel*Link\n* Network Communication director.\n*\n* Unauthorized access will be prosecuted.\n**********************************************************************\n\n'
+set system login radius-server 45.61.85.42 port 1812
+set system login radius-server 45.61.85.42 secret h0uLL3oo
+set system login radius-server 45.61.85.42 timeout 2
+set system login radius-server 67.152.248.80 port 1812
+set system login radius-server 67.152.248.80 secret h0uLL3oo
+set system login radius-server 67.152.248.80 timeout 2
+set system login user capt-a authentication encrypted-password '$6$u./tUquhs$OqSHsIhS9jA1qLJnVRvf8bxwpZ2o2/gil0qTkL6A..FgyMRAuAcnaXQOB52no9Nx2qof8M7FOubFIiwxNDLS71'
+set system login user capt-a authentication plaintext-password ''
+set system login user capt-a full-name ''
+set system login user capt-a level admin
+set system login user gtlbackup authentication encrypted-password '$6$XCtpfyX1xpY$689H57plZV65oxZCq5WeH81UU.AeB8pnF/s9bo2B2VPjjXCkrQMQD.ihywwx5hukLVgsAgfnpKY96vCj7fH921'
+set system login user gtlbackup authentication plaintext-password ''
+set system login user gtlbackup level admin
+set system login user gtlnetwork authentication encrypted-password '$6$Hd.BJBAkNb0$mjo06C046o9vdJ4LmMvqv2ROyFpUKODtNGaJ8sqrMBUq3A3QQgFH962a3x7PSFPO2D3NhA.wG./g4wRxg1P72/'
+set system login user gtlnetwork authentication plaintext-password ''
+set system login user gtlnetwork level admin
+set system login user netmanager authentication encrypted-password '$5$9zLCjHQWCjl02g4U$R4bp0vqNusjdrxS95lmfQdhUF6YeH3q.bJOL/21TIk.'
+set system login user netmanager authentication plaintext-password ''
+set system login user netmanager level admin
+set system login user netops authentication encrypted-password '$6$N4s5TSjM7XZD$z5fz4HrhLVLnWWpbDuQTbZNtibMaT6KhnGOtTn.crnJfR3yJ9uYAjKKpy5Vg8CupfAm.2LQTiy1avlunXm.jb.'
+set system login user netops authentication plaintext-password ''
+set system login user netops full-name ''
+set system login user netops level operator
+set system login user tech authentication encrypted-password '$6$fFTMnfHReuSw$LtCtUhSoFxY3JPjzSXjHn141on2N70R..PLyMrkAKzt9TOIO8SiomCv5yzOFvaEWymEbBKDyMflusJ5.a/8LD/'
+set system login user tech authentication plaintext-password ''
+set system login user tech full-name ''
+set system login user tech level operator
+set system login user techsupport authentication encrypted-password '$6$/zjvKuXs$bNaKdCTvMntyaUsH6t5sEyLzdKcQ6pDyzfA/Lj7x1a/lJCARnqPfpRenUtuCkBZ6jNw20HrBf9KOh55rKGK1F0'
+set system login user techsupport authentication plaintext-password ''
+set system login user techsupport level operator
+set system name-server 208.67.220.220
+set system name-server 208.67.222.222
+set system name-server 8.8.8.8
+set system name-server 8.8.4.4
+set system ntp server 1.ubnt.pool.ntp.org
+set system ntp server 2.ubnt.pool.ntp.org
+set system offload hwnat disable
+set system offload ipsec enable
+set system offload ipv4 forwarding enable
+set system offload ipv4 vlan enable
+set system offload ipv6 forwarding disable
+set system package repository wheezy components 'main contrib non-free'
+set system package repository wheezy distribution wheezy
+set system package repository wheezy password ''
+set system package repository wheezy url 'http://archive.debian.org/debian'
+set system package repository wheezy username ''
+set system syslog global facility all level notice
+set system syslog global facility protocols level debug
+set system time-zone America/Chicago
+set system traffic-analysis dpi disable
+set system traffic-analysis export disable
+set vpn ipsec auto-firewall-nat-exclude enable
+set vpn ipsec esp-group FOO0 compression disable
+set vpn ipsec esp-group FOO0 lifetime 3600
+set vpn ipsec esp-group FOO0 mode tunnel
+set vpn ipsec esp-group FOO0 pfs disable
+set vpn ipsec esp-group FOO0 proposal 1 encryption 3des
+set vpn ipsec esp-group FOO0 proposal 1 hash md5
+set vpn ipsec esp-group FOO1 compression disable
+set vpn ipsec esp-group FOO1 lifetime 3600
+set vpn ipsec esp-group FOO1 mode tunnel
+set vpn ipsec esp-group FOO1 pfs enable
+set vpn ipsec esp-group FOO1 proposal 1 encryption aes128
+set vpn ipsec esp-group FOO1 proposal 1 hash sha1
+set vpn ipsec esp-group FOO2 compression disable
+set vpn ipsec esp-group FOO2 lifetime 3600
+set vpn ipsec esp-group FOO2 mode tunnel
+set vpn ipsec esp-group FOO2 pfs enable
+set vpn ipsec esp-group FOO2 proposal 1 encryption 3des
+set vpn ipsec esp-group FOO2 proposal 1 hash md5
+set vpn ipsec ike-group FOO0 ikev2-reauth no
+set vpn ipsec ike-group FOO0 key-exchange ikev1
+set vpn ipsec ike-group FOO0 lifetime 28800
+set vpn ipsec ike-group FOO0 proposal 1 dh-group 2
+set vpn ipsec ike-group FOO0 proposal 1 encryption 3des
+set vpn ipsec ike-group FOO0 proposal 1 hash md5
+set vpn ipsec ike-group FOO1 ikev2-reauth no
+set vpn ipsec ike-group FOO1 key-exchange ikev1
+set vpn ipsec ike-group FOO1 lifetime 28800
+set vpn ipsec ike-group FOO1 proposal 1 dh-group 2
+set vpn ipsec ike-group FOO1 proposal 1 encryption aes128
+set vpn ipsec ike-group FOO1 proposal 1 hash sha1
+set vpn ipsec ike-group FOO2 ikev2-reauth no
+set vpn ipsec ike-group FOO2 key-exchange ikev1
+set vpn ipsec ike-group FOO2 lifetime 28800
+set vpn ipsec ike-group FOO2 proposal 1 dh-group 2
+set vpn ipsec ike-group FOO2 proposal 1 encryption 3des
+set vpn ipsec ike-group FOO2 proposal 1 hash md5
+set vpn ipsec site-to-site peer 67.99.197.33 authentication mode pre-shared-secret
+set vpn ipsec site-to-site peer 67.99.197.33 authentication pre-shared-secret cr2em6eviedl
+set vpn ipsec site-to-site peer 67.99.197.33 connection-type initiate
+set vpn ipsec site-to-site peer 67.99.197.33 description HoustonCoLo
+set vpn ipsec site-to-site peer 67.99.197.33 ike-group FOO0
+set vpn ipsec site-to-site peer 67.99.197.33 ikev2-reauth inherit
+set vpn ipsec site-to-site peer 67.99.197.33 local-address 160.72.115.250
+set vpn ipsec site-to-site peer 67.99.197.33 tunnel 1 allow-nat-networks disable
+set vpn ipsec site-to-site peer 67.99.197.33 tunnel 1 allow-public-networks disable
+set vpn ipsec site-to-site peer 67.99.197.33 tunnel 1 esp-group FOO0
+set vpn ipsec site-to-site peer 67.99.197.33 tunnel 1 local prefix 10.250.221.0/24
+set vpn ipsec site-to-site peer 67.99.197.33 tunnel 1 remote prefix 10.33.128.0/24
+set vpn ipsec site-to-site peer 67.99.197.33 tunnel 2 allow-nat-networks disable
+set vpn ipsec site-to-site peer 67.99.197.33 tunnel 2 allow-public-networks disable
+set vpn ipsec site-to-site peer 67.99.197.33 tunnel 2 esp-group FOO0
+set vpn ipsec site-to-site peer 67.99.197.33 tunnel 2 local prefix 10.250.221.0/24
+set vpn ipsec site-to-site peer 67.99.197.33 tunnel 2 remote prefix 192.168.36.90/32
+set vpn ipsec site-to-site peer 67.99.197.33 tunnel 3 allow-nat-networks disable
+set vpn ipsec site-to-site peer 67.99.197.33 tunnel 3 allow-public-networks disable
+set vpn ipsec site-to-site peer 67.99.197.33 tunnel 3 esp-group FOO0
+set vpn ipsec site-to-site peer 67.99.197.33 tunnel 3 local prefix 10.250.221.0/24
+set vpn ipsec site-to-site peer 67.99.197.33 tunnel 3 remote prefix 10.10.0.0/16
+set vpn ipsec site-to-site peer 67.99.197.33 tunnel 4 allow-nat-networks disable
+set vpn ipsec site-to-site peer 67.99.197.33 tunnel 4 allow-public-networks disable
+set vpn ipsec site-to-site peer 67.99.197.33 tunnel 4 esp-group FOO0
+set vpn ipsec site-to-site peer 67.99.197.33 tunnel 4 local prefix 10.250.221.0/24
+set vpn ipsec site-to-site peer 67.99.197.33 tunnel 4 remote prefix 10.50.1.0/24
+set vpn ipsec site-to-site peer 67.99.197.33 tunnel 5 allow-nat-networks disable
+set vpn ipsec site-to-site peer 67.99.197.33 tunnel 5 allow-public-networks disable
+set vpn ipsec site-to-site peer 67.99.197.33 tunnel 5 esp-group FOO0
+set vpn ipsec site-to-site peer 67.99.197.33 tunnel 5 local prefix 10.250.221.0/24
+set vpn ipsec site-to-site peer 67.99.197.33 tunnel 5 remote prefix 10.50.3.0/24
+set vpn ipsec site-to-site peer 67.99.197.33 tunnel 9 allow-nat-networks disable
+set vpn ipsec site-to-site peer 67.99.197.33 tunnel 9 allow-public-networks disable
+set vpn ipsec site-to-site peer 67.99.197.33 tunnel 9 esp-group FOO0
+set vpn ipsec site-to-site peer 67.99.197.33 tunnel 9 local prefix 10.125.0.0/21
+set vpn ipsec site-to-site peer 67.99.197.33 tunnel 9 remote prefix 10.33.128.0/24
+set vpn ipsec site-to-site peer 67.99.197.33 tunnel 10 allow-nat-networks disable
+set vpn ipsec site-to-site peer 67.99.197.33 tunnel 10 allow-public-networks disable
+set vpn ipsec site-to-site peer 67.99.197.33 tunnel 10 esp-group FOO0
+set vpn ipsec site-to-site peer 67.99.197.33 tunnel 10 local prefix 10.125.0.0/21
+set vpn ipsec site-to-site peer 67.99.197.33 tunnel 10 remote prefix 172.16.0.0/16
+set vpn ipsec site-to-site peer 67.99.197.33 tunnel 11 allow-nat-networks disable
+set vpn ipsec site-to-site peer 67.99.197.33 tunnel 11 allow-public-networks disable
+set vpn ipsec site-to-site peer 67.99.197.33 tunnel 11 esp-group FOO0
+set vpn ipsec site-to-site peer 67.99.197.33 tunnel 11 local prefix 10.125.0.0/21
+set vpn ipsec site-to-site peer 67.99.197.33 tunnel 11 remote prefix 10.10.0.0/16
+set vpn ipsec site-to-site peer 67.99.197.33 tunnel 12 allow-nat-networks disable
+set vpn ipsec site-to-site peer 67.99.197.33 tunnel 12 allow-public-networks disable
+set vpn ipsec site-to-site peer 67.99.197.33 tunnel 12 esp-group FOO0
+set vpn ipsec site-to-site peer 67.99.197.33 tunnel 12 local prefix 10.125.0.0/21
+set vpn ipsec site-to-site peer 67.99.197.33 tunnel 12 remote prefix 10.50.1.0/24
+set vpn ipsec site-to-site peer 67.99.197.33 tunnel 13 allow-nat-networks disable
+set vpn ipsec site-to-site peer 67.99.197.33 tunnel 13 allow-public-networks disable
+set vpn ipsec site-to-site peer 67.99.197.33 tunnel 13 esp-group FOO0
+set vpn ipsec site-to-site peer 67.99.197.33 tunnel 13 local prefix 10.125.0.0/21
+set vpn ipsec site-to-site peer 67.99.197.33 tunnel 13 remote prefix 10.50.3.0/24
+set vpn ipsec site-to-site peer 67.99.197.33 tunnel 14 allow-nat-networks disable
+set vpn ipsec site-to-site peer 67.99.197.33 tunnel 14 allow-public-networks disable
+set vpn ipsec site-to-site peer 67.99.197.33 tunnel 14 esp-group FOO0
+set vpn ipsec site-to-site peer 67.99.197.33 tunnel 14 local prefix 10.125.0.0/21
+set vpn ipsec site-to-site peer 67.99.197.33 tunnel 14 remote prefix 10.3.3.0/24
+set vpn ipsec site-to-site peer 67.99.197.33 tunnel 15 allow-nat-networks disable
+set vpn ipsec site-to-site peer 67.99.197.33 tunnel 15 allow-public-networks disable
+set vpn ipsec site-to-site peer 67.99.197.33 tunnel 15 esp-group FOO0
+set vpn ipsec site-to-site peer 67.99.197.33 tunnel 15 local prefix 10.125.0.0/21
+set vpn ipsec site-to-site peer 67.99.197.33 tunnel 15 remote prefix 192.168.35.0/24
+set vpn ipsec site-to-site peer 67.99.197.33 tunnel 16 allow-nat-networks disable
+set vpn ipsec site-to-site peer 67.99.197.33 tunnel 16 allow-public-networks disable
+set vpn ipsec site-to-site peer 67.99.197.33 tunnel 16 esp-group FOO0
+set vpn ipsec site-to-site peer 67.99.197.33 tunnel 16 local prefix 10.125.0.0/21
+set vpn ipsec site-to-site peer 67.99.197.33 tunnel 16 remote prefix 192.168.36.0/24
+set vpn ipsec site-to-site peer 207.34.8.14 authentication mode pre-shared-secret
+set vpn ipsec site-to-site peer 207.34.8.14 authentication pre-shared-secret cr2em6eviedl
+set vpn ipsec site-to-site peer 207.34.8.14 connection-type initiate
+set vpn ipsec site-to-site peer 207.34.8.14 description PlanoASA
+set vpn ipsec site-to-site peer 207.34.8.14 ike-group FOO2
+set vpn ipsec site-to-site peer 207.34.8.14 ikev2-reauth inherit
+set vpn ipsec site-to-site peer 207.34.8.14 local-address 160.72.115.250
+set vpn ipsec site-to-site peer 207.34.8.14 tunnel 1 allow-nat-networks disable
+set vpn ipsec site-to-site peer 207.34.8.14 tunnel 1 allow-public-networks disable
+set vpn ipsec site-to-site peer 207.34.8.14 tunnel 1 esp-group FOO2
+set vpn ipsec site-to-site peer 207.34.8.14 tunnel 1 local prefix 10.250.221.0/24
+set vpn ipsec site-to-site peer 207.34.8.14 tunnel 1 remote prefix 172.16.0.0/16
+set vpn ipsec site-to-site peer 207.34.8.14 tunnel 2 allow-nat-networks disable
+set vpn ipsec site-to-site peer 207.34.8.14 tunnel 2 allow-public-networks disable
+set vpn ipsec site-to-site peer 207.34.8.14 tunnel 2 esp-group FOO2
+set vpn ipsec site-to-site peer 207.34.8.14 tunnel 2 local prefix 10.250.221.0/24
+set vpn ipsec site-to-site peer 207.34.8.14 tunnel 2 remote prefix 10.200.103.161/32
+set vpn rsa-keys rsa-key-name FCT-VPN1-BRI rsa-key 0sAQN29N8k7LCVuiWJwFuzCBBetyvQxvZ9IXXTPUW4gz5V1bktQ0kzEOpTlBaaLWscEfLzsGr0a66ZAY1nGcJcp1FFhBfJJZNAbD1Cqd6AFBgzoG31iqCYvEu+eBkTzRZ9BvrvmHah9uad1oyhgA6rPsCNWN4ZdsZ+Wr20ZzKra0+RZ2EZy3vh/0h4ivL5OXt/R4UM5FktvjihvkNjSFd2dNami9NjLPhJed+Bt8MWJDjftfTIFdyzYvCtlELdoB8M9wpduBn7DhxkBT+Wcve1wzqeth11n/OADhlUVAhWWjADJuyFEQUXI58pB7da4POEsZE6kY1ox0XlUHCzg21bReMgf6R6nUvV/712xHISo3pp1YpH
