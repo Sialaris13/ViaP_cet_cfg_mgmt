@@ -3,12 +3,26 @@ import yaml
 import os
 
 
-def load_data():
+def load_data(site):
+    path = "data"
     data = {}
-    for file in os.listdir("data"):
-        with open(f"data/{file}") as f:
-            d = yaml.safe_load(f)
-            data.update(d)
+    for file in os.listdir(path):
+        if os.path.isfile(f"{path}/{file}"):
+            with open(f"{path}/{file}") as f:
+                d = yaml.safe_load(f)
+                data[file.split(".")[0]] = d
+    data["site"] = load_site_data(site)
+
+    return data
+
+
+def load_site_data(site):
+    path = "data/site_data"
+    data = {}
+    with open(f"{path}/{site}.yml") as f:
+        d = yaml.safe_load(f)
+        return d
+
     return data
 
 

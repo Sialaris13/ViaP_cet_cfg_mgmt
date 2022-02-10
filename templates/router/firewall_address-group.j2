@@ -47,13 +47,13 @@ set firewall group address-group VAC_ACCESS address 10.250.221.18
 set firewall group address-group VAC_ACCESS address 160.72.155.195
 set firewall group address-group VAC_ACCESS description ''
 
-{% for prefix in WLSourceGroup %}
+{% for prefix in address_groups.WLSourceGroup %}
 set firewall group address-group WLSourceGroup address {{ prefix }}
 {%- endfor %}
 set firewall group address-group WLSourceGroup description 'WL For Port-Forward Access'
 
 set firewall group address-group data.center.3rd.party description 'Non GTL Data Centers'
-{% for ip in dns_server %}
+{% for ip in addresses.dns_server %}
 set firewall group address-group dns.servers.public address {{ ip }}
 {%- endfor %}
 
@@ -165,14 +165,14 @@ set firewall group address-group gtl.unms.public address 104.131.15.75
 set firewall group address-group gtl.unms.public description 'GTL UNMS Public IPs'
 set firewall group address-group gtl.voice.gatewway.ata description 'Adtran or Quintum - Analog to VoIP [Open Access]'
 
-{% for address in gtl_voice_voip_sbc %}
+{% for address in address_groups.gtl_voice_voip_sbc %}
 set firewall group address-group gtl.voice.voip.sbc address {{ address }}
 {%- endfor %}
 set firewall group address-group gtl.voice.voip.sbc description gtl.voice.voip.sbc
 
 set firewall group address-group keefe.computers description '3rd Party Company'
 
-{% for address in lexis_nexis_law_library %}
+{% for address in address_groups.lexis_nexis_law_library %}
 set firewall group address-group lexis.nexis.law.library address {{ address }}}
 {%- endfor %}
 set firewall group address-group lexis.nexis.law.library description 'Lexis Nexis Law Library'
