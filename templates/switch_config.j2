@@ -1,0 +1,419 @@
+hostname "GTL-MIDOC-CooperStrCorr-JCS-ES-24-IDF-CD"
+enable password f7f0f1beeb6af67e876f8933bd4a6aaa4c0ad077152e710fd87d81ce86d4dadb5d968bd0bddfe76f45f8333197e2c54263f77d6738d6799bb8e8209e303b476b encrypted
+network protocol none
+network parms 10.80.6.133 255.255.255.192 10.80.6.129
+vlan database
+vlan 2-11,1000
+vlan name 2 "Private_VLAN"
+vlan name 3 "Public_LAN"
+vlan name 4 "MP3"
+vlan name 5 "VideoVisitation"
+vlan name 6 "InPodServices"
+vlan name 7 "VRS"
+vlan name 8 "LobbyKiosk"
+vlan name 9 "LawLibrary"
+vlan name 10 "LeaveBehind"
+vlan name 11 "Wireless"
+vlan name 1000 "Management-VLAN"
+exit
+
+network mgmt_vlan 6
+ip http secure-session soft-timeout 60
+ip telnet server enable
+configure
+username "capt-a" password 289bb267ac4c87dc6a12fb9551adb1e66917c838ade915a7284af1888ab6bf19408a8c8f0ebacfc7da6a3884bb9ef2e885bb99560e87812c11d978d2df4bd292 level 15 encrypted
+username "netops" password fecc5e3141ffa533c4bfdb98b049f90f13709e958fbdbd8a84515254c032f3a89f47a7ab9be7e63360f3a0ce721cddd47ac161152c009f12246a8058a2fb545c level 1 encrypted
+username "gtlbackup" password 6949d28e38fed3f2c6cbad403ac2a46bbc95c941ea2c9b2b130f4262b76d017463d4c534abf282bf6cbd831aef72b5895db0e7ad4440fd4f27e8e5194c3d783f level 15 encrypted
+username "netengineer" password 428bd9d48e8fe55a3e76b41f7c20d331be3693db2c50bbf01cc8827ac4d74dad740a38a79993b60beb7f6767197c7035862af4a9fdca3504084306519fe573f8 level 15 encrypted
+username "gtlnetwork" password adee7e7090d027f68caef389935186852be4baa299ec00851a294816fefc41deeed8102312240ed28ff9dc097da60292cdb33db28daad7ddeace3b830f750b89 level 15 encrypted
+no username "ubnt"
+aaa authentication login "networkList" local tacacs
+aaa authentication enable "enableList" enable none
+ip http authentication local tacacs
+ip https authentication local tacacs
+line console
+exit
+
+line telnet
+exit              
+
+line ssh
+exit
+
+snmp-server sysname "MIDOC-CooperStrCorr-JCS-ES-24-IDF-CD"
+snmp-server location "PNET"
+!
+snmp-server community "HNSSCC" ro
+no snmp-server community "public"
+
+interface 0/1
+description '<UNIT - AP>' 
+vlan participation include 1,100
+vlan tagging 100
+lldp transmit-tlv port-desc
+lldp transmit-tlv sys-name
+lldp transmit-tlv sys-desc
+lldp transmit-tlv sys-cap
+lldp transmit-mgmt
+lldp notification
+lldp med confignotification
+exit
+
+                  
+
+interface 0/2
+switchport mode access
+switchport access vlan 6
+lldp transmit-tlv port-desc
+lldp transmit-tlv sys-name
+lldp transmit-tlv sys-desc
+lldp transmit-tlv sys-cap
+lldp transmit-mgmt
+lldp notification
+lldp med confignotification
+exit
+
+
+
+interface 0/3
+description 'VisManagers'
+switchport mode access
+vlan pvid 6
+vlan participation include 6
+lldp transmit-tlv port-desc
+lldp transmit-tlv sys-name
+lldp transmit-tlv sys-desc
+lldp transmit-tlv sys-cap
+lldp transmit-mgmt
+lldp notification
+lldp med confignotification
+exit
+
+
+
+interface 0/4
+description 'VisManagers'
+switchport mode access
+vlan pvid 6
+vlan participation include 6
+lldp transmit-tlv port-desc
+lldp transmit-tlv sys-name
+lldp transmit-tlv sys-desc
+lldp transmit-tlv sys-cap
+lldp transmit-mgmt
+lldp notification
+lldp med confignotification
+exit
+
+                  
+
+interface 0/5
+switchport mode access
+switchport access vlan 11
+lldp transmit-tlv port-desc
+lldp transmit-tlv sys-name
+lldp transmit-tlv sys-desc
+lldp transmit-tlv sys-cap
+lldp transmit-mgmt
+lldp notification
+lldp med confignotification
+exit
+
+
+
+interface 0/6
+switchport mode access
+switchport access vlan 11
+lldp transmit-tlv port-desc
+lldp transmit-tlv sys-name
+lldp transmit-tlv sys-desc
+lldp transmit-tlv sys-cap
+lldp transmit-mgmt
+lldp notification
+lldp med confignotification
+exit
+
+
+
+interface 0/7
+switchport mode access
+switchport access vlan 11
+lldp transmit-tlv port-desc
+lldp transmit-tlv sys-name
+lldp transmit-tlv sys-desc
+lldp transmit-tlv sys-cap
+lldp transmit-mgmt
+lldp notification
+lldp med confignotification
+exit
+
+
+
+interface 0/8
+switchport mode access
+switchport access vlan 11
+lldp transmit-tlv port-desc
+lldp transmit-tlv sys-name
+lldp transmit-tlv sys-desc
+lldp transmit-tlv sys-cap
+lldp transmit-mgmt
+lldp notification
+lldp med confignotification
+exit
+
+
+
+interface 0/9
+switchport mode access
+switchport access vlan 11
+lldp transmit-tlv port-desc
+lldp transmit-tlv sys-name
+lldp transmit-tlv sys-desc
+lldp transmit-tlv sys-cap
+lldp transmit-mgmt
+lldp notification
+lldp med confignotification
+exit
+                  
+
+
+interface 0/10
+switchport mode access
+switchport access vlan 11
+lldp transmit-tlv port-desc
+lldp transmit-tlv sys-name
+lldp transmit-tlv sys-desc
+lldp transmit-tlv sys-cap
+lldp transmit-mgmt
+lldp notification
+lldp med confignotification
+exit
+
+
+
+interface 0/11
+switchport mode access
+switchport access vlan 5
+lldp transmit-tlv port-desc
+lldp transmit-tlv sys-name
+lldp transmit-tlv sys-desc
+lldp transmit-tlv sys-cap
+lldp transmit-mgmt
+lldp notification
+lldp med confignotification
+exit
+
+
+
+interface 0/12
+switchport mode access
+switchport access vlan 5
+lldp transmit-tlv port-desc
+lldp transmit-tlv sys-name
+lldp transmit-tlv sys-desc
+lldp transmit-tlv sys-cap
+lldp transmit-mgmt
+lldp notification
+lldp med confignotification
+exit
+
+
+
+interface 0/13
+switchport mode access
+switchport access vlan 5
+lldp transmit-tlv port-desc
+lldp transmit-tlv sys-name
+lldp transmit-tlv sys-desc
+lldp transmit-tlv sys-cap
+lldp transmit-mgmt
+lldp notification
+lldp med confignotification
+exit
+
+
+
+interface 0/14
+switchport mode access
+switchport access vlan 5
+lldp transmit-tlv port-desc
+lldp transmit-tlv sys-name
+lldp transmit-tlv sys-desc
+lldp transmit-tlv sys-cap
+lldp transmit-mgmt
+lldp notification
+lldp med confignotification
+exit              
+
+
+
+interface 0/15
+switchport mode access
+switchport access vlan 5
+lldp transmit-tlv port-desc
+lldp transmit-tlv sys-name
+lldp transmit-tlv sys-desc
+lldp transmit-tlv sys-cap
+lldp transmit-mgmt
+lldp notification
+lldp med confignotification
+exit
+
+
+
+interface 0/16
+switchport mode access
+switchport access vlan 5
+lldp transmit-tlv port-desc
+lldp transmit-tlv sys-name
+lldp transmit-tlv sys-desc
+lldp transmit-tlv sys-cap
+lldp transmit-mgmt
+lldp notification
+lldp med confignotification
+exit
+
+
+
+interface 0/17
+switchport mode access
+switchport access vlan 5
+lldp transmit-tlv port-desc
+lldp transmit-tlv sys-name
+lldp transmit-tlv sys-desc
+lldp transmit-tlv sys-cap
+lldp transmit-mgmt
+lldp notification
+lldp med confignotification
+exit
+
+
+
+interface 0/18    
+switchport mode access
+switchport access vlan 5
+lldp transmit-tlv port-desc
+lldp transmit-tlv sys-name
+lldp transmit-tlv sys-desc
+lldp transmit-tlv sys-cap
+lldp transmit-mgmt
+lldp notification
+lldp med confignotification
+exit
+
+
+
+interface 0/19
+switchport mode access
+switchport access vlan 6
+lldp transmit-tlv port-desc
+lldp transmit-tlv sys-name
+lldp transmit-tlv sys-desc
+lldp transmit-tlv sys-cap
+lldp transmit-mgmt
+lldp notification
+lldp med confignotification
+exit
+
+
+
+interface 0/20
+switchport mode access
+switchport access vlan 6
+lldp transmit-tlv port-desc
+lldp transmit-tlv sys-name
+lldp transmit-tlv sys-desc
+lldp transmit-tlv sys-cap
+lldp transmit-mgmt
+lldp notification
+lldp med confignotification
+exit
+
+
+
+interface 0/21
+switchport mode access
+switchport access vlan 7
+lldp transmit-tlv port-desc
+lldp transmit-tlv sys-name
+lldp transmit-tlv sys-desc
+lldp transmit-tlv sys-cap
+lldp transmit-mgmt
+lldp notification
+lldp med confignotification
+exit
+
+
+
+interface 0/22
+switchport mode access
+switchport access vlan 7
+lldp transmit-tlv port-desc
+lldp transmit-tlv sys-name
+lldp transmit-tlv sys-desc
+lldp transmit-tlv sys-cap
+lldp transmit-mgmt
+lldp notification
+lldp med confignotification
+exit
+
+
+                  
+interface 0/23
+switchport mode trunk
+lldp transmit-tlv port-desc
+lldp transmit-tlv sys-name
+lldp transmit-tlv sys-desc
+lldp transmit-tlv sys-cap
+lldp transmit-mgmt
+lldp notification
+lldp med confignotification
+exit
+
+
+
+interface 0/24
+switchport mode trunk
+lldp transmit-tlv port-desc
+lldp transmit-tlv sys-name
+lldp transmit-tlv sys-desc
+lldp transmit-tlv sys-cap
+lldp transmit-mgmt
+lldp notification
+lldp med confignotification
+exit              
+
+
+
+interface 0/25
+switchport mode trunk
+lldp transmit-tlv port-desc
+lldp transmit-tlv sys-name
+lldp transmit-tlv sys-desc
+lldp transmit-tlv sys-cap
+lldp transmit-mgmt
+lldp notification
+lldp med confignotification
+exit
+
+
+
+interface 0/26
+switchport mode trunk
+lldp transmit-tlv port-desc
+lldp transmit-tlv sys-name
+lldp transmit-tlv sys-desc
+lldp transmit-tlv sys-cap
+lldp transmit-mgmt
+lldp notification
+lldp med confignotification
+exit
+
+
+service unms key wss://gtlunms.gtl.us:443+yk73XJTX5S5B8EGSWyGWagETyg8NLBXJwjmFXl2lA00YwRHP+allowSelfSignedCertificate
+service unms
+tacacs-server host "10.33.0.42"
+timeout 5
+exit
+
+exit
