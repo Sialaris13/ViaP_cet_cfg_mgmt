@@ -16,7 +16,6 @@ vlan name 10 "LeaveBehind"
 vlan name 11 "Wireless"
 vlan name 1000 "Management-VLAN"
 exit
-
 network mgmt_vlan 1
 ip http secure-session soft-timeout 60
 ip telnet server enable
@@ -33,23 +32,17 @@ ip http authentication local tacacs
 ip https authentication local tacacs
 line console
 exit
-
 line telnet
 exit              
-
 line ssh
 exit
-
 snmp-server sysname "MIDOC-CooperStrCorr-JCS-ES-24-IDF-CD"
 snmp-server location "PNET"
 !
 snmp-server community "HNSSCC" ro
 no snmp-server community "public"
-
-
-{% for ap in device.ap %}
-interface 0/{{ loop.index }}
-description '{{ ap['location'] }} - AP'  
+interface 0/1
+description 'HU-6 - AP'  
 <vlan participation include 1,100>
 <vlan tagging 100>
 lldp transmit-tlv port-desc
@@ -59,13 +52,22 @@ lldp transmit-tlv sys-cap
 lldp transmit-mgmt
 lldp notification
 lldp med confignotification
-{% endfor %}
-
-
+exit
+interface 0/2
+description 'HU-4 - AP'  
+<vlan participation include 1,100>
+<vlan tagging 100>
+lldp transmit-tlv port-desc
+lldp transmit-tlv sys-name
+lldp transmit-tlv sys-desc
+lldp transmit-tlv sys-cap
+lldp transmit-mgmt
+lldp notification
+lldp med confignotification
+exit
 service unms key wss://gtlunms.gtl.us:443+yk73XJTX5S5B8EGSWyGWagETyg8NLBXJwjmFXl2lA00YwRHP+allowSelfSignedCertificate
 service unms
 tacacs-server host "10.33.0.42"
 timeout 5
 exit
-
 exit

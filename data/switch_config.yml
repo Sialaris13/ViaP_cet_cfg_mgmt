@@ -1,0 +1,18 @@
+switch1:
+  ap:
+    - location: HU-1
+    - location: HU-2
+  vvs:
+    - location: HU-2
+    - location: HU-3
+ 
+
+switch2:
+  ap:
+    - location: HU-6
+    - location: HU-4
+  vvs:
+    - location: HU-4
+    - location: HU-5
+
+
