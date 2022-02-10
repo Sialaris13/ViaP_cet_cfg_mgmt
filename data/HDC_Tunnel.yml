@@ -1,0 +1,17 @@
+
+peer_ip: "67.99.197.33"
+tunnels:
+  -
+    remote_prefix: 172.16.0.0/16
+  -
+    remote_prefix: 10.10.0.0/16
+  -
+    remote_prefix: 10.50.1.0/24
+  -
+    remote_prefix: 10.50.3.0/24
+  -
+    remote_prefix: 10.3.3.0/24
+  -
+    remote_prefix: 192.168.35.0/24
+  -
+    remote_prefix: 192.168.36.0/24

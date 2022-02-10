@@ -1,0 +1,15 @@
+-
+ description: 'Kiosk #1 - TPL-50013'
+ destination_address: "160.72.155.196"
+ destination_port: 222
+ inbound_interface: eth5
+ inside_address: "172.25.1.34"
+ inside_port: 22
+
+-
+ description: 'Kiosk #2 - TPL-60013'
+ destination: "160.72.155.196"
+ destination_port: 223
+ inbound_interface: eth5
+ inside_address:  "172.25.1.35"
+ inside_port: 22
